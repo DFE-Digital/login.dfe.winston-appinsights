@@ -18,6 +18,7 @@ describe('when configuring transport to using AI key', () => {
   it('then it should setup ai with specified key', () => {
     new AppInsightsTransport({
       key: 'some-ai-key',
+      applicationName: 'unit tests',
     });
 
     expect(ai.setup.mock.calls).toHaveLength(1);
@@ -27,6 +28,7 @@ describe('when configuring transport to using AI key', () => {
   it('then it should start ai', () => {
     new AppInsightsTransport({
       key: 'some-ai-key',
+      applicationName: 'unit tests',
     });
 
     expect(aiStart.mock.calls).toHaveLength(1);
@@ -35,6 +37,7 @@ describe('when configuring transport to using AI key', () => {
   it('then it should use ai default client as client for trace', () => {
     const transport = new AppInsightsTransport({
       key: 'some-ai-key',
+      applicationName: 'unit tests',
     });
     transport.log('info', 'test info message', { some: 'thing' }, jest.fn());
 
@@ -45,6 +48,7 @@ describe('when configuring transport to using AI key', () => {
     const transport = new AppInsightsTransport({
       key: 'some-ai-key',
       type: 'event',
+      applicationName: 'unit tests',
     });
     transport.log('info', 'test info message', { some: 'thing' }, jest.fn());
 
@@ -55,6 +59,7 @@ describe('when configuring transport to using AI key', () => {
     const transport = new AppInsightsTransport({
       key: 'some-ai-key',
       treatErrorsAsExceptions: true,
+      applicationName: 'unit tests',
     });
     transport.log('error', 'test error message', { some: 'thing' }, jest.fn());
 

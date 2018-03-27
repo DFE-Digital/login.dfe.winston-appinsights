@@ -15,6 +15,7 @@ describe('when logging as trace', () => {
       client,
       type: 'event',
       treatErrorsAsExceptions: true,
+      applicationName: 'unit tests',
     });
   });
 
@@ -28,6 +29,7 @@ describe('when logging as trace', () => {
         level: 'info',
         message: 'test info message',
         some: 'thing',
+        applicationName: 'unit tests',
       },
     });
   });
@@ -42,6 +44,7 @@ describe('when logging as trace', () => {
         level: 'warn',
         message: 'test warn message',
         some: 'thing',
+        applicationName: 'unit tests',
       },
     });
   });
@@ -55,6 +58,7 @@ describe('when logging as trace', () => {
       properties: {
         level: 'error',
         some: 'thing',
+        applicationName: 'unit tests',
       },
     });
   });
