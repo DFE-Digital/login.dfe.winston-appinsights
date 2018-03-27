@@ -14,6 +14,7 @@ describe('when logging as trace', () => {
     transport = new AppInsightsTransport({
       client,
       treatErrorsAsExceptions: true,
+      applicationName: 'unit tests',
     });
   });
 
@@ -26,6 +27,7 @@ describe('when logging as trace', () => {
       properties: {
         level: 'info',
         some: 'thing',
+        applicationName: 'unit tests',
       },
     });
   });
@@ -39,6 +41,7 @@ describe('when logging as trace', () => {
       properties: {
         level: 'warn',
         some: 'thing',
+        applicationName: 'unit tests',
       },
     });
   });
@@ -52,6 +55,7 @@ describe('when logging as trace', () => {
       properties: {
         level: 'error',
         some: 'thing',
+        applicationName: 'unit tests',
       },
     });
   });

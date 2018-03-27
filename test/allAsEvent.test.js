@@ -14,6 +14,7 @@ describe('when logging as trace', () => {
     transport = new AppInsightsTransport({
       client,
       type: 'event',
+      applicationName: 'unit tests',
     });
   });
 
@@ -27,6 +28,7 @@ describe('when logging as trace', () => {
         level: 'info',
         message: 'test info message',
         some: 'thing',
+        applicationName: 'unit tests',
       },
     });
   });
@@ -41,6 +43,7 @@ describe('when logging as trace', () => {
         level: 'warn',
         message: 'test warn message',
         some: 'thing',
+        applicationName: 'unit tests',
       },
     });
   });
@@ -55,6 +58,7 @@ describe('when logging as trace', () => {
         level: 'error',
         message: 'test error message',
         some: 'thing',
+        applicationName: 'unit tests',
       },
     });
   });
