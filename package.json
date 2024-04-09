@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/jest"
+    "test": "jest --coverage"
   },
   "engines": {
     "node": ">=10.x.x"

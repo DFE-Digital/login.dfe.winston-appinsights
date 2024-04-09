@@ -19,11 +19,11 @@ describe('when logging as trace', () => {
   });
 
   it('then it should log info as trace', () => {
-    transport.log('info', 'test info message', { some: 'thing' }, callback);
+    transport.log({level: 'info', name: 'test event name', message: 'test info message', meta:{ some: 'thing' }}, callback);
 
     expect(client.trackTrace.mock.calls).toHaveLength(1);
     expect(client.trackTrace.mock.calls[0][0]).toEqual({
-      message: 'INFO: test info message',
+      message: 'INFO- test event name: test info message',
       properties: {
         level: 'info',
         some: 'thing',
@@ -33,11 +33,11 @@ describe('when logging as trace', () => {
   });
 
   it('then it should log warn as trace', () => {
-    transport.log('warn', 'test warn message', { some: 'thing' }, callback);
+    transport.log({level: 'warn', name: 'test event warn', message: 'test warn message', meta:{ some: 'thing' }}, callback);
 
     expect(client.trackTrace.mock.calls).toHaveLength(1);
     expect(client.trackTrace.mock.calls[0][0]).toEqual({
-      message: 'WARN: test warn message',
+      message: 'WARN- test event warn: test warn message',
       properties: {
         level: 'warn',
         some: 'thing',
@@ -47,8 +47,7 @@ describe('when logging as trace', () => {
   });
 
   it('then it should log error as exception', () => {
-    transport.log('error', 'test error message', { some: 'thing' }, callback);
-
+    transport.log({level: 'error', name: 'test event error', message: 'test error message', meta:{ some: 'thing' }}, callback);
     expect(client.trackException.mock.calls).toHaveLength(1);
     expect(client.trackException.mock.calls[0][0]).toEqual({
       exception: new Error('test error message'),
@@ -56,12 +55,13 @@ describe('when logging as trace', () => {
         level: 'error',
         some: 'thing',
         applicationName: 'unit tests',
+        name: 'test event error',
       },
     });
   });
 
   it('then it should call callback', () => {
-    transport.log('info', 'test info message', { some: 'thing' }, callback);
+    transport.log({level: 'info', name: 'test event name', message: 'test info message', meta:{ some: 'thing' }}, callback);
 
     expect(callback.mock.calls).toHaveLength(1);
   });
@@ -71,7 +71,7 @@ describe('when logging as trace', () => {
       throw new Error('test');
     });
 
-    transport.log('info', 'test info message', { some: 'thing' }, callback);
+    transport.log({level: 'info', name: 'test event name', message: 'test info message', meta:{ some: 'thing' }}, callback);
 
     expect(callback.mock.calls).toHaveLength(1);
     expect(callback.mock.calls[0][0]).not.toBeNull();
@@ -83,7 +83,7 @@ describe('when logging as trace', () => {
       throw new Error('test');
     });
 
-    transport.log('error', 'test error message', { some: 'thing' }, callback);
+    transport.log({level: 'error', name: 'test event error', message: 'test error message', meta:{ some: 'thing' }}, callback);
 
     expect(callback.mock.calls).toHaveLength(1);
     expect(callback.mock.calls[0][0]).not.toBeNull();

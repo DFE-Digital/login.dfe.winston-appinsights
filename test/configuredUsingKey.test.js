@@ -4,6 +4,7 @@ const client = require('./aiClientMock')();
 const ai = require('applicationinsights');
 const AppInsightsTransport = require('./../lib');
 
+const callback = jest.fn();
 const aiStart = jest.fn();
 
 describe('when configuring transport to using AI key', () => {
@@ -39,7 +40,8 @@ describe('when configuring transport to using AI key', () => {
       key: 'some-ai-key',
       applicationName: 'unit tests',
     });
-    transport.log('info', 'test info message', { some: 'thing' }, jest.fn());
+    transport.log({level: 'info', name: 'event name test', message: 'test info message', meta: { some: 'thing' }}, callback);
+
 
     expect(client.trackTrace.mock.calls).toHaveLength(1);
   });
@@ -50,7 +52,8 @@ describe('when configuring transport to using AI key', () => {
       type: 'event',
       applicationName: 'unit tests',
     });
-    transport.log('info', 'test info message', { some: 'thing' }, jest.fn());
+    transport.log({level: 'info', name: 'event name test', message: 'test info message', meta: { some: 'thing' }}, callback);
+
 
     expect(client.trackEvent.mock.calls).toHaveLength(1);
   });
@@ -61,7 +64,7 @@ describe('when configuring transport to using AI key', () => {
       treatErrorsAsExceptions: true,
       applicationName: 'unit tests',
     });
-    transport.log('error', 'test error message', { some: 'thing' }, jest.fn());
+    transport.log({level: 'error', name: 'test event error', message: 'test error message', meta:{ some: 'thing' }}, callback);
 
     expect(client.trackException.mock.calls).toHaveLength(1);
   });
