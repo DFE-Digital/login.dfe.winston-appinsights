@@ -33,6 +33,7 @@ describe('when logging as trace', () => {
         message: 'test info message',
         some: 'thing',
         applicationName: 'unit tests',
+        name: 'test event name',
       },
     });
   });
@@ -50,6 +51,7 @@ describe('when logging as trace', () => {
         message: 'test warn message',
         some: 'thing',
         applicationName: 'unit tests',
+        name: 'test event name',
       },
     });
   });

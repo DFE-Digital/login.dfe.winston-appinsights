@@ -28,6 +28,7 @@ describe('when logging as trace', () => {
         level: 'info',
         some: 'thing',
         applicationName: 'unit tests',
+        name: 'test event name',
       },
     });
   });
@@ -42,6 +43,7 @@ describe('when logging as trace', () => {
         level: 'warn',
         some: 'thing',
         applicationName: 'unit tests',
+        name: 'test event warn',
       },
     });
   });
