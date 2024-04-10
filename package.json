@@ -1,6 +1,6 @@
 {
   "name": "login.dfe.winston-appinsights",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
