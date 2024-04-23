@@ -1,10 +1,10 @@
 {
   "name": "login.dfe.winston-appinsights",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/jest"
+    "test": "jest --coverage"
   },
   "engines": {
     "node": ">=10.x.x"

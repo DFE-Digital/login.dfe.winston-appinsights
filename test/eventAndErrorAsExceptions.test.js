@@ -1,16 +1,19 @@
 const client = require('./aiClientMock')();
-const AppInsightsTransport = require('./../lib');
+const { level } = require('winston');
+const AppInsightsTransport = require('../lib/index');
 
 const callback = jest.fn();
 
 describe('when logging as trace', () => {
   let transport;
-
+  let payload;
   beforeEach(() => {
     client.mockResetAll();
 
     callback.mockReset();
-
+    payload = {
+      level: 'info', name: 'test event name', message: 'test info message', meta: { some: 'thing' },
+    };
     transport = new AppInsightsTransport({
       client,
       type: 'event',
@@ -20,37 +23,43 @@ describe('when logging as trace', () => {
   });
 
   it('then it should log info as event', () => {
-    transport.log('info', 'test info message', { some: 'thing' }, callback);
+    transport.log(payload, callback);
 
     expect(client.trackEvent.mock.calls).toHaveLength(1);
     expect(client.trackEvent.mock.calls[0][0]).toEqual({
-      name: 'test info message',
+      name: 'test event name',
       properties: {
         level: 'info',
         message: 'test info message',
         some: 'thing',
         applicationName: 'unit tests',
+        name: 'test event name',
       },
     });
   });
 
   it('then it should log warn as event', () => {
-    transport.log('warn', 'test warn message', { some: 'thing' }, callback);
+    payload.level = 'warn';
+    payload.message = 'test warn message';
+    transport.log(payload, callback);
 
     expect(client.trackEvent.mock.calls).toHaveLength(1);
     expect(client.trackEvent.mock.calls[0][0]).toEqual({
-      name: 'test warn message',
+      name: 'test event name',
       properties: {
         level: 'warn',
         message: 'test warn message',
         some: 'thing',
         applicationName: 'unit tests',
+        name: 'test event name',
       },
     });
   });
 
   it('then it should log error as exception', () => {
-    transport.log('error', 'test error message', { some: 'thing' }, callback);
+    payload.level = 'error';
+    payload.message = 'test error message';
+    transport.log(payload, callback);
 
     expect(client.trackException.mock.calls).toHaveLength(1);
     expect(client.trackException.mock.calls[0][0]).toEqual({
@@ -59,12 +68,13 @@ describe('when logging as trace', () => {
         level: 'error',
         some: 'thing',
         applicationName: 'unit tests',
+        name: 'test event name',
       },
     });
   });
 
   it('then it should call callback', () => {
-    transport.log('info', 'test info message', { some: 'thing' }, callback);
+    transport.log(payload, callback);
 
     expect(callback.mock.calls).toHaveLength(1);
   });
@@ -74,7 +84,7 @@ describe('when logging as trace', () => {
       throw new Error('test');
     });
 
-    transport.log('info', 'test info message', { some: 'thing' }, callback);
+    transport.log(payload, callback);
 
     expect(callback.mock.calls).toHaveLength(1);
     expect(callback.mock.calls[0][0]).not.toBeNull();
@@ -85,8 +95,8 @@ describe('when logging as trace', () => {
     client.trackException.mockImplementation(() => {
       throw new Error('test');
     });
-
-    transport.log('error', 'test error message', { some: 'thing' }, callback);
+    payload.level = 'error';
+    transport.log(payload, callback);
 
     expect(callback.mock.calls).toHaveLength(1);
     expect(callback.mock.calls[0][0]).not.toBeNull();
