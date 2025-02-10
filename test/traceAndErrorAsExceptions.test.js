@@ -49,16 +49,17 @@ describe('when logging as trace', () => {
   });
 
   it('then it should log error as exception', () => {
-    transport.log({level: 'error', name: 'test event error', message: 'test error message', meta:{ some: 'thing' }}, callback);
+    const exampleError = new Error("Example error");
+
+    transport.log({level: 'error', name: 'test event error', message: 'test error message', meta:{ error: exampleError, some: 'thing' }}, callback);
+
     expect(client.trackException.mock.calls).toHaveLength(1);
-    expect(client.trackException.mock.calls[0][0]).toEqual({
-      exception: new Error('test error message'),
-      properties: {
-        level: 'error',
-        some: 'thing',
-        applicationName: 'unit tests',
-        name: 'test event error',
-      },
+    expect(client.trackException.mock.calls[0][0].exception).toBe(exampleError);
+    expect(client.trackException.mock.calls[0][0].properties).toEqual({
+      level: 'error',
+      some: 'thing',
+      applicationName: 'unit tests',
+      name: 'test event error',
     });
   });
 
